@@ -68,7 +68,8 @@ export async function fetchSiteSettings(): Promise<SiteSettings> {
             twitter: data.twitter || '#',
             youtube: data.youtube || '#'
           },
-          copyright: data.copyright
+          copyright: data.copyright,
+          itCredit: data.it_credit || "Dikelola oleh Penanggung Jawab Divisi IT DPC BMI Kab. Tegal"
         };
       }
     } catch (err) {

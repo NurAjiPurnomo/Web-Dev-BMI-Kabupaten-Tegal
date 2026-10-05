@@ -964,6 +964,10 @@ const db = getDB();
                   <label>Teks Copyright Footer</label>
                   <input type="text" name="copyright" id="setting-copyright" value={db.settings.copyright} required />
                 </div>
+                <div class="form-field">
+                  <label>Teks Pengelola IT / Kredit (Footer Kanan)</label>
+                  <input type="text" name="itCredit" id="setting-itCredit" value={db.settings.itCredit || "Dikelola oleh Penanggung Jawab Divisi IT DPC BMI Kab. Tegal"} required />
+                </div>
               </div>
 
               <div id="settings-alert" class="alert-box hidden"></div>
@@ -3690,7 +3694,8 @@ const db = getDB();
           twitter: (document.getElementById('setting-twitter') as HTMLInputElement).value,
           youtube: (document.getElementById('setting-youtube') as HTMLInputElement).value
         },
-        copyright: (document.getElementById('setting-copyright') as HTMLInputElement).value
+        copyright: (document.getElementById('setting-copyright') as HTMLInputElement).value,
+        itCredit: (document.getElementById('setting-itCredit') as HTMLInputElement).value
       };
 
       try {

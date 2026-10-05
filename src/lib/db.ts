@@ -17,6 +17,7 @@ export interface SiteSettings {
     youtube: string;
   };
   copyright: string;
+  itCredit?: string;
 }
 
 export interface HeroSlide {
@@ -233,7 +234,8 @@ const defaultSettings: SiteSettings = {
   phone: "0888-8888-8888",
   email: "email@bmiltegal.com",
   social: { facebook: "#", instagram: "#", twitter: "#", youtube: "#" },
-  copyright: "© 2024 BMI KAB TEGAL"
+  copyright: "© 2024 BMI KAB TEGAL",
+  itCredit: "Dikelola oleh Penanggung Jawab Divisi IT DPC BMI Kab. Tegal"
 };
 
 const defaultAgenda: AgendaItem[] = [
