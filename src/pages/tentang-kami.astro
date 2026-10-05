@@ -6,7 +6,37 @@ import LayananModal from '../components/LayananModal.astro';
 import { fetchSiteSettings, fetchTeamMembers, fetchAboutContent } from '../lib/supabase';
 
 const settings = await fetchSiteSettings();
-const teamMembers = await fetchTeamMembers();
+const rawTeam = await fetchTeamMembers();
+const teamMembers = (rawTeam && rawTeam.length > 0) ? rawTeam : [
+  {
+    id: "team-1",
+    name: "H. Bambang Sutrisno, S.T.",
+    role: "Ketua DPC BMI Kab. Tegal",
+    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop",
+    tag: "Pimpinan Organisasi"
+  },
+  {
+    id: "team-2",
+    name: "Rian Hidayat, S.Sos.",
+    role: "Sekretaris DPC BMI Kab. Tegal",
+    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=600&auto=format&fit=crop",
+    tag: "Keorganisasian"
+  },
+  {
+    id: "team-3",
+    name: "Dewi Anggraeni, S.E.",
+    role: "Bendahara DPC BMI Kab. Tegal",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop",
+    tag: "Keuangan"
+  },
+  {
+    id: "team-4",
+    name: "Ahmad Fauzi, S.Kom.",
+    role: "Ketua Bidang UMKM Pemuda",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop",
+    tag: "Pemberdayaan UMKM"
+  }
+];
 const aboutContent = await fetchAboutContent();
 
 const kecamatanList = (aboutContent.kecamatanList && aboutContent.kecamatanList.length > 0)

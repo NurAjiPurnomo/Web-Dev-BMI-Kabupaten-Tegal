@@ -218,7 +218,7 @@ export async function fetchTeamMembers(): Promise<TeamMember[]> {
         .from('team')
         .select('*');
 
-      if (!error && data) {
+      if (!error && data && data.length > 0) {
         return data.map(item => ({
           id: item.id,
           name: item.name,
