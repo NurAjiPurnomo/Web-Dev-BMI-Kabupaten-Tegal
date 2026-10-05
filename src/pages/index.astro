@@ -1,0 +1,37 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import HeroSlider from '../components/HeroSlider.astro';
+import NewsSection from '../components/NewsSection.astro';
+import AgendaSection from '../components/AgendaSection.astro';
+import NewsDetailModal from '../components/NewsDetailModal.astro';
+import LayananModal from '../components/LayananModal.astro';
+import Footer from '../components/Footer.astro';
+import { fetchSiteSettings, fetchHeroSlides, fetchNewsList } from '../lib/supabase';
+
+const settings = await fetchSiteSettings();
+const heroSlides = await fetchHeroSlides();
+const news = await fetchNewsList();
+---
+
+<Layout title={`${settings.siteName} - ${settings.subTitle}`}>
+  <Header siteName={settings.siteName} />
+
+  <main>
+    <HeroSlider slides={heroSlides} />
+    <NewsSection newsList={news.slice(0, 6)} />
+    <AgendaSection />
+  </main>
+
+  <Footer settings={settings} />
+
+  <!-- Modals -->
+  <NewsDetailModal newsList={news} />
+  <LayananModal />
+</Layout>
+
+<style>
+  main {
+    flex: 1;
+  }
+</style>

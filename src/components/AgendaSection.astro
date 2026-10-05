@@ -1,0 +1,255 @@
+---
+import { fetchAgendaList } from '../lib/supabase';
+
+const rawAgenda = await fetchAgendaList();
+const agendaItems = rawAgenda.slice(0, 6).map(item => ({
+  id: item.id,
+  title: item.title,
+  date: item.schedule,
+  time: '',
+  location: item.location || item.kecamatan,
+  category: item.badge,
+  status: item.impact || 'Akan Datang',
+  image: item.image || 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop'
+}));
+---
+
+<section class="agenda-home-section" id="agenda-kegiatan">
+  <div class="container">
+    <!-- Header Section Matching pdipkotasemarang.id (| Agenda & Kegiatan) -->
+    <div class="agenda-header-bar">
+      <div>
+        <span class="sub-heading-pill">KEGIATAN MASYARAKAT</span>
+        <h2 class="agenda-section-title">Agenda & Program Kerja</h2>
+      </div>
+      <a href="/program" class="view-all-link">
+        <span>Lihat Semua Agenda</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- Agenda Cards Grid -->
+    <div class="agenda-cards-grid">
+      {agendaItems.map((item) => (
+        <div class="agenda-item-card">
+          <div class="agenda-card-thumb">
+            <img src={item.image} alt={item.title} loading="lazy" class="agenda-thumb-img" />
+            <span class="agenda-cat-badge">{item.category}</span>
+          </div>
+          <div class="agenda-card-content">
+            <div class="agenda-meta-date">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span>{item.date}{item.time ? ` (${item.time})` : ''}</span>
+            </div>
+            <h3 class="agenda-card-heading">{item.title}</h3>
+            <div class="agenda-location-info">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              <span>{item.location}</span>
+            </div>
+            <div class="agenda-card-foot">
+              <span class="status-pill">{item.status}</span>
+              <a href="/program" class="detail-btn">Detail Agenda</a>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .agenda-home-section {
+    padding: 50px 0 65px 0;
+    background-color: #F8FAFC;
+    border-top: 1px solid #F1F5F9;
+  }
+
+  .agenda-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 32px;
+  }
+
+  .sub-heading-pill {
+    display: inline-block;
+    color: var(--primary-red);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .agenda-section-title {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #0F172A;
+    font-family: var(--font-heading);
+    margin: 0;
+    line-height: 1.25;
+    letter-spacing: -0.3px;
+  }
+
+  .view-all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--primary-red);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .view-all-link:hover {
+    color: var(--primary-red-hover);
+  }
+
+  .agenda-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .agenda-item-card {
+    background: #FFFFFF;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .agenda-item-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--hover-shadow);
+  }
+
+  .agenda-card-thumb {
+    position: relative;
+    width: 100%;
+    height: 190px;
+    background: #0F172A;
+    overflow: hidden;
+  }
+
+  .agenda-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .agenda-item-card:hover .agenda-thumb-img {
+    transform: scale(1.05);
+  }
+
+  .agenda-cat-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--primary-red);
+    color: #FFFFFF;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .agenda-card-content {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .agenda-meta-date {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--primary-red);
+    margin-bottom: 8px;
+  }
+
+  .agenda-card-heading {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #0F172A;
+    font-family: var(--font-heading);
+    line-height: 1.35;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .agenda-location-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    color: #64748B;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .agenda-card-foot {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 14px;
+    border-top: 1px solid #F1F5F9;
+  }
+
+  .status-pill {
+    background: #F1F5F9;
+    color: #334155;
+    font-size: 0.74rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  .detail-btn {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--primary-red);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .detail-btn:hover {
+    color: var(--primary-red-hover);
+    text-decoration: underline;
+  }
+
+  @media (max-width: 992px) {
+    .agenda-cards-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .agenda-header-bar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .agenda-section-title {
+      font-size: 1.65rem;
+    }
+    .agenda-cards-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,329 @@
+---
+import type { NewsItem } from '../lib/db';
+
+export interface Props {
+  newsList: NewsItem[];
+}
+
+const { newsList = [] } = Astro.props;
+---
+
+<section class="news-section" id="recent-news">
+  <div class="news-container">
+    <div class="section-header">
+      <div class="title-wrapper">
+        <span class="sub-heading-pill">KABAR TERBARU</span>
+        <h2 class="section-title">Berita Terkini</h2>
+      </div>
+      <a href="/berita" class="view-all-link">
+        <span>Lihat Semua Berita</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="news-grid" id="news-grid-container">
+      {newsList.map((item) => (
+        <a href={`/berita/${item.id}`} class="pdip-card" data-news-id={item.id}>
+          <div class="pdip-card-img-wrap">
+            <img src={item.image} alt={item.title} loading="lazy" class="pdip-card-img" />
+            <span class="pdip-cat-tag">{item.category}</span>
+          </div>
+          <div class="pdip-card-body">
+            <span class="pdip-card-date">{item.date}</span>
+            <h3 class="pdip-card-title">{item.title}</h3>
+            <p class="pdip-card-excerpt">{item.excerpt}</p>
+            <div class="pdip-card-footer">
+              <span>Baca Selengkapnya</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+
+          <!-- Authentic Batik Corner Accent -->
+          <div class="batik-corner" title="BMI Tegal Cultural Accent">
+            <svg viewBox="0 0 80 80" class="batik-svg">
+              <path d="M80 0 L80 80 L0 80 Z" fill="var(--dark-red)" />
+              <path d="M80 20 L20 80 M80 40 L40 80 M80 60 L60 80" stroke="var(--primary-red)" stroke-width="3" opacity="0.6" />
+              <circle cx="65" cy="65" r="4" fill="#E2E8F0" opacity="0.8"/>
+            </svg>
+          </div>
+        </a>
+      ))}
+    </div>
+
+
+  </div>
+</section>
+
+<style>
+  .news-section {
+    padding: 60px 0 35px 0;
+    background-color: #FFFFFF;
+  }
+
+  .news-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  @media (max-width: 768px) {
+    .news-container {
+      padding: 0 16px;
+    }
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 36px;
+  }
+
+  .sub-heading-pill {
+    display: inline-block;
+    color: var(--primary-red);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .section-title {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #0F172A;
+    font-family: var(--font-heading);
+    margin: 0;
+    line-height: 1.25;
+    letter-spacing: -0.3px;
+  }
+
+  .view-all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--primary-red);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .view-all-link:hover {
+    color: var(--primary-red-hover);
+  }
+
+  /* News Grid (Matches PDI Perjuangan Card Design 100%) */
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .pdip-card {
+    background: #FFFFFF;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid #E2E8F0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .pdip-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
+  }
+
+  .pdip-card-img-wrap {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: #F1F5F9;
+  }
+
+  .pdip-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .pdip-card:hover .pdip-card-img {
+    transform: scale(1.05);
+  }
+
+  .pdip-cat-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(15, 23, 42, 0.82);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #FFFFFF;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  .pdip-cat-tag::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--primary-red);
+    display: inline-block;
+  }
+
+  .pdip-card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .pdip-card-date {
+    font-size: 0.78rem;
+    color: #64748B;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .pdip-card-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--dark-red);
+    line-height: 1.35;
+    margin-bottom: 10px;
+    font-family: var(--font-heading);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: color 0.2s;
+  }
+
+  .pdip-card:hover .pdip-card-title {
+    color: var(--primary-red);
+  }
+
+  .pdip-card-excerpt {
+    font-size: 0.86rem;
+    color: #475569;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .pdip-card-footer {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--primary-red);
+  }
+
+  .pdip-card-footer svg {
+    transition: transform 0.25s ease;
+  }
+
+  .pdip-card:hover .pdip-card-footer svg {
+    transform: translateX(4px);
+  }
+
+  /* Batik Corner Accent */
+  .batik-corner {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 55px;
+    height: 55px;
+    pointer-events: none;
+    z-index: 5;
+    border-bottom-right-radius: 14px;
+    overflow: hidden;
+  }
+
+  .batik-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Bottom CTA Button */
+  .news-bottom-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  .btn-bottom-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--primary-red);
+    color: #FFFFFF;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 12px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px rgba(227, 6, 19, 0.25);
+  }
+
+  .btn-bottom-more:hover {
+    background-color: var(--primary-red-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(227, 6, 19, 0.4);
+  }
+
+  .btn-bottom-more svg {
+    transition: transform 0.25s ease;
+  }
+
+  .btn-bottom-more:hover svg {
+    transform: translateX(4px);
+  }
+
+  /* Responsive Rules */
+  @media (max-width: 992px) {
+    .news-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .news-grid {
+      grid-template-columns: 1fr;
+    }
+    .pdip-card-img-wrap {
+      height: 190px;
+    }
+    .btn-bottom-more {
+      width: 100%;
+      justify-content: center;
+      padding: 12px 20px;
+    }
+  }
+</style>

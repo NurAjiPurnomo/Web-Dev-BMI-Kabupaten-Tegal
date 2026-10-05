@@ -1,0 +1,589 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import LayananModal from '../../components/LayananModal.astro';
+import { fetchNewsList, fetchSiteSettings } from '../../lib/supabase';
+
+const { id } = Astro.params;
+const settings = await fetchSiteSettings();
+const allNews = await fetchNewsList();
+
+const article = allNews.find((n) => n.id === id) || allNews[0];
+const otherNews = allNews.filter((n) => n.id !== article.id);
+
+// Split into 2 widgets: "Simak Berita Pilihan" & "Berita Lainnya"
+const beritaPilihan = otherNews.slice(0, 2);
+const beritaLainnya = otherNews.slice(2, 8);
+
+if (!article) {
+  return Astro.redirect('/404');
+}
+---
+
+<Layout title={`${article.title} - ${settings.siteName}`} description={article.excerpt}>
+  <Header siteName={settings.siteName} />
+
+  <main class="article-page-main">
+    <div class="article-container">
+      <!-- Breadcrumb Navigation -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Beranda</a>
+        <span class="sep">/</span>
+        <a href="/#recent-news">Berita</a>
+        <span class="sep">/</span>
+        <span class="current">{article.category}</span>
+      </nav>
+
+      <div class="article-layout-grid">
+        <!-- Main Article Content (Left Column) -->
+        <article class="article-content-col">
+          <div class="meta-header">
+            <span class="category-badge">{article.category}</span>
+            <div class="meta-info">
+              <span class="meta-item date-meta">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                {article.date}
+              </span>
+              <span class="meta-item author-meta">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                Humas DPC BMI Kab. Tegal
+              </span>
+            </div>
+          </div>
+
+          <h1 class="article-title">{article.title}</h1>
+
+          {article.excerpt && (
+            <div class="article-lead">
+              <p>{article.excerpt}</p>
+            </div>
+          )}
+
+          <!-- Share bar top -->
+          <div class="share-bar">
+            <span class="share-label">Bagikan Artikel:</span>
+            <div class="share-buttons">
+              <a 
+                href={`https://api.whatsapp.com/send?text=${encodeURIComponent(article.title)}%20${encodeURIComponent(Astro.url.href)}`} 
+                target="_blank" 
+                class="btn-share wa"
+                aria-label="Share to WhatsApp"
+              >
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654z"/></svg>
+                <span>WhatsApp</span>
+              </a>
+              <a 
+                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(Astro.url.href)}`} 
+                target="_blank" 
+                class="btn-share fb"
+                aria-label="Share to Facebook"
+              >
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+                <span>Facebook</span>
+              </a>
+              <button 
+                id="copy-link-btn" 
+                class="btn-share copy" 
+                aria-label="Copy Link"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span>Salin Tautan</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Hero Image Cover -->
+          <div class="article-cover-wrap">
+            <img src={article.image} alt={article.title} class="article-cover-img" />
+            <span class="image-caption">Dokumentasi Aksi Lapangan BMI Kabupaten Tegal</span>
+          </div>
+
+          <!-- Body Text Paragraphs -->
+          <div class="article-body">
+            {article.content ? (
+              article.content.split('\n\n').map((paragraph) => (
+                <p>{paragraph}</p>
+              ))
+            ) : (
+              <p>{article.excerpt}</p>
+            )}
+          </div>
+
+          <div class="article-footer-tags">
+            <div class="tags-list">
+              <span class="tag-item">#BMITegal</span>
+              <span class="tag-item">#PemudaTegal</span>
+              <span class="tag-item">#{article.category.replace(/\s+/g, '')}</span>
+              <span class="tag-item">#AksiNyata</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Sidebar / Right Column (Exact PDI Perjuangan Style) -->
+        <aside class="article-sidebar">
+          <!-- Widget 1: Simak Berita Pilihan -->
+          <div class="sidebar-block">
+            <h3 class="pdi-widget-title">Simak Berita Pilihan</h3>
+            <div class="pdi-red-line"></div>
+
+            <div class="pdi-news-list">
+              {beritaPilihan.map((item) => (
+                <a href={`/berita/${item.id}`} class="pdi-news-item">
+                  <div class="pdi-thumb-box">
+                    <img src={item.image} alt={item.title} class="pdi-thumb-img" />
+                  </div>
+                  <div class="pdi-info-box">
+                    <h4 class="pdi-item-title">{item.title}</h4>
+                    <div class="pdi-meta-row">
+                      <span class="pdi-author">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <circle cx="12" cy="7" r="4"></circle>
+                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        </svg>
+                        <span>BMI Kab. Tegal</span>
+                      </span>
+                      <span class="pdi-date">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                          <line x1="16" y1="2" x2="16" y2="6"></line>
+                          <line x1="8" y1="2" x2="8" y2="6"></line>
+                          <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        <span>{item.date}</span>
+                      </span>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <!-- Widget 2: Berita Lainnya -->
+          <div class="sidebar-block">
+            <h3 class="pdi-widget-title">Berita Lainnya</h3>
+            <div class="pdi-red-line"></div>
+
+            <div class="pdi-news-list">
+              {beritaLainnya.map((item) => (
+                <a href={`/berita/${item.id}`} class="pdi-news-item">
+                  <div class="pdi-thumb-box">
+                    <img src={item.image} alt={item.title} class="pdi-thumb-img" />
+                  </div>
+                  <div class="pdi-info-box">
+                    <h4 class="pdi-item-title">{item.title}</h4>
+                    <div class="pdi-meta-row">
+                      <span class="pdi-author">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <circle cx="12" cy="7" r="4"></circle>
+                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        </svg>
+                        <span>BMI Kab. Tegal</span>
+                      </span>
+                      <span class="pdi-date">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                          <line x1="16" y1="2" x2="16" y2="6"></line>
+                          <line x1="8" y1="2" x2="8" y2="6"></line>
+                          <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        <span>{item.date}</span>
+                      </span>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <Footer settings={settings} />
+  <LayananModal />
+</Layout>
+
+<style>
+  .article-page-main {
+    background-color: #FFFFFF;
+    padding: 36px 0 80px 0;
+    min-height: 80vh;
+  }
+
+  .article-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Breadcrumb */
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+    color: #64748B;
+    margin-bottom: 28px;
+  }
+
+  .breadcrumb a {
+    color: #475569;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--primary-red);
+  }
+
+  .breadcrumb .sep {
+    color: #94A3B8;
+  }
+
+  .breadcrumb .current {
+    color: var(--primary-red);
+    font-weight: 700;
+  }
+
+  /* Grid Layout */
+  .article-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .article-content-col {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 32px 36px;
+    border: 1px solid #E2E8F0;
+  }
+
+  .meta-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .category-badge {
+    background: rgba(200, 16, 46, 0.1);
+    color: var(--primary-red);
+    font-weight: 800;
+    font-size: 0.8rem;
+    padding: 6px 14px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .meta-info {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: #64748B;
+    font-weight: 600;
+  }
+
+  .article-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #0F172A;
+    line-height: 1.25;
+    margin-bottom: 18px;
+    font-family: var(--font-heading);
+    letter-spacing: -0.5px;
+  }
+
+  .article-lead {
+    border-left: 4px solid var(--primary-red);
+    padding-left: 18px;
+    margin-bottom: 24px;
+  }
+
+  .article-lead p {
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: #334155;
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  /* Share bar */
+  .share-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 18px;
+    background: #F8FAFC;
+    border-radius: 10px;
+    margin-bottom: 28px;
+    border: 1px solid #F1F5F9;
+  }
+
+  .share-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #475569;
+  }
+
+  .share-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .btn-share {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+
+  .btn-share:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+  }
+
+  .btn-share.wa { background: #25D366; }
+  .btn-share.fb { background: #1877F2; }
+  .btn-share.copy { background: #475569; }
+
+  /* Cover Image */
+  .article-cover-wrap {
+    width: 100%;
+    margin-bottom: 32px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #F1F5F9;
+  }
+
+  .article-cover-img {
+    width: 100%;
+    max-height: 460px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .image-caption {
+    display: block;
+    padding: 8px 14px;
+    background: #F1F5F9;
+    font-size: 0.78rem;
+    color: #64748B;
+    text-align: center;
+    font-style: italic;
+  }
+
+  /* Body Text */
+  .article-body {
+    font-size: 1.05rem;
+    color: #1E293B;
+    line-height: 1.85;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+
+  .article-footer-tags {
+    padding-top: 24px;
+    border-top: 1px solid #E2E8F0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .tags-list {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tag-item {
+    background: #F1F5F9;
+    color: #475569;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 6px;
+  }
+
+  .btn-back-home {
+    background: #0F172A;
+    color: #FFFFFF;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 10px 18px;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+
+  .btn-back-home:hover {
+    background: var(--primary-red);
+  }
+
+  /* Sidebar Layout (Matching Screenshot Exactly) */
+  .article-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  .sidebar-block {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pdi-widget-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #1E1E1E;
+    font-family: var(--font-heading);
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .pdi-red-line {
+    height: 3px;
+    width: 100%;
+    background-color: var(--primary-red);
+    margin: 10px 0 20px 0;
+  }
+
+  .pdi-news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .pdi-news-item {
+    display: flex;
+    gap: 14px;
+    text-decoration: none;
+    align-items: flex-start;
+  }
+
+  .pdi-news-item:hover .pdi-item-title {
+    color: var(--primary-red);
+  }
+
+  .pdi-thumb-box {
+    width: 85px;
+    height: 85px;
+    border-radius: 4px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #F1F5F9;
+  }
+
+  .pdi-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+
+  .pdi-news-item:hover .pdi-thumb-img {
+    transform: scale(1.06);
+  }
+
+  .pdi-info-box {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .pdi-item-title {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #4A5568;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: color 0.2s;
+  }
+
+  .pdi-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.78rem;
+    margin-top: 2px;
+  }
+
+  .pdi-author, .pdi-date {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--primary-red);
+    font-weight: 600;
+  }
+
+  .pdi-author svg, .pdi-date svg {
+    color: #718096;
+  }
+
+  @media (max-width: 992px) {
+    .article-layout-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .article-content-col {
+      padding: 24px 20px;
+    }
+    .article-title {
+      font-size: 1.75rem;
+    }
+    .article-cover-img {
+      max-height: 280px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Copy link
+    const copyBtn = document.getElementById('copy-link-btn');
+    copyBtn?.addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.href);
+      const span = copyBtn.querySelector('span');
+      if (span) {
+        const oldText = span.innerText;
+        span.innerText = 'Tersalin!';
+        setTimeout(() => span.innerText = oldText, 2000);
+      }
+    });
+  });
+</script>

@@ -1,0 +1,310 @@
+---
+import type { HeroSlide } from '../lib/db';
+
+export interface Props {
+  slides: HeroSlide[];
+}
+
+const { slides = [] } = Astro.props;
+const activeSlides = slides.filter(s => s.active);
+---
+
+<section class="hero-slider-section" id="hero-slider">
+  <div class="slider-container">
+    {activeSlides.map((slide, index) => (
+      <div 
+        class={`slide ${index === 0 ? 'active' : ''}`} 
+        data-index={index}
+      >
+        <div class="slide-bg" style={`background-image: url('${slide.image}');`}>
+          <div class="overlay-gradient"></div>
+        </div>
+        <div class="slide-content-wrapper">
+          <div class="slide-content">
+            <h1 class="hero-title">{slide.title}</h1>
+            {slide.subtitle && <p class="hero-subtitle">{slide.subtitle}</p>}
+          </div>
+        </div>
+      </div>
+    ))}
+
+    <!-- Carousel Controls -->
+    <button class="slider-btn prev-btn" aria-label="Previous Slide">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </button>
+    <button class="slider-btn next-btn" aria-label="Next Slide">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </button>
+
+    <!-- Pagination Dots -->
+    <div class="pagination-dots">
+      {activeSlides.map((_, index) => (
+        <button 
+          class={`dot ${index === 0 ? 'active' : ''}`} 
+          data-slide-to={index}
+          aria-label={`Go to slide ${index + 1}`}
+        ></button>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-slider-section {
+    position: relative;
+    width: 100%;
+    height: 520px;
+    background-color: #0a0a0a;
+    overflow: hidden;
+  }
+
+  .slider-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+    transform: scale(1.02);
+  }
+
+  .slide.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+    z-index: 10;
+  }
+
+  .slide-bg {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+    position: relative;
+  }
+
+  .overlay-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.88) 0%,
+      rgba(0, 0, 0, 0.45) 45%,
+      rgba(0, 0, 0, 0.15) 100%
+    );
+  }
+
+  .slide-content-wrapper {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 60px;
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  .slide-content {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 24px;
+    color: #ffffff;
+    pointer-events: auto;
+  }
+
+  .hero-title {
+    font-size: 2.85rem;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+    color: #ffffff;
+    max-width: 850px;
+    font-family: var(--font-heading);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+  }
+
+  .hero-subtitle {
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: #F1F5F9;
+    opacity: 0.95;
+    max-width: 700px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Slider Buttons */
+  .slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.45);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    transition: all 0.25s ease;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+  }
+
+  .slider-container:hover .slider-btn {
+    opacity: 1;
+  }
+
+  .prev-btn { left: 24px; }
+  .next-btn { right: 24px; }
+
+  .slider-btn:hover {
+    background: var(--primary-red);
+    border-color: var(--primary-red);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  /* Dots */
+  .pagination-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 30;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.45);
+    transition: all 0.3s ease;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .dot.active {
+    background-color: var(--primary-red);
+    width: 22px;
+    height: 7px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(227, 6, 19, 0.5);
+  }
+
+  @media (max-width: 992px) {
+    .hero-slider-section {
+      height: 420px;
+    }
+    .hero-title {
+      font-size: 2.2rem;
+    }
+    .hero-subtitle {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero-slider-section {
+      height: 340px;
+    }
+    .hero-title {
+      font-size: 1.65rem;
+    }
+    .hero-subtitle {
+      font-size: 0.88rem;
+    }
+    .slide-content-wrapper {
+      padding-bottom: 45px;
+    }
+    .slider-btn {
+      opacity: 0.85;
+      width: 38px;
+      height: 38px;
+    }
+    .prev-btn { left: 12px; }
+    .next-btn { right: 12px; }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelectorAll('.hero-slider-section .slide');
+    const dots = document.querySelectorAll('.hero-slider-section .dot');
+    const prevBtn = document.querySelector('.hero-slider-section .prev-btn');
+    const nextBtn = document.querySelector('.hero-slider-section .next-btn');
+
+    if (slides.length <= 1) return;
+
+    let currentIndex = 0;
+    let autoInterval: any = null;
+
+    function goToSlide(index: number) {
+      slides[currentIndex].classList.remove('active');
+      dots[currentIndex]?.classList.remove('active');
+
+      currentIndex = (index + slides.length) % slides.length;
+
+      slides[currentIndex].classList.add('active');
+      dots[currentIndex]?.classList.add('active');
+    }
+
+    function nextSlide() {
+      goToSlide(currentIndex + 1);
+    }
+
+    function prevSlide() {
+      goToSlide(currentIndex - 1);
+    }
+
+    function startAutoPlay() {
+      stopAutoPlay();
+      autoInterval = setInterval(nextSlide, 5000);
+    }
+
+    function stopAutoPlay() {
+      if (autoInterval) clearInterval(autoInterval);
+    }
+
+    nextBtn?.addEventListener('click', () => {
+      nextSlide();
+      startAutoPlay();
+    });
+
+    prevBtn?.addEventListener('click', () => {
+      prevSlide();
+      startAutoPlay();
+    });
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        goToSlide(index);
+        startAutoPlay();
+      });
+    });
+
+    const sliderContainer = document.querySelector('.slider-container');
+    sliderContainer?.addEventListener('mouseenter', stopAutoPlay);
+    sliderContainer?.addEventListener('mouseleave', startAutoPlay);
+
+    startAutoPlay();
+  });
+</script>

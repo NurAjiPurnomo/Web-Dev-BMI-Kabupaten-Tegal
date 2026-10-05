@@ -1,0 +1,389 @@
+{
+  "settings": {
+    "siteName": "BMI KAB TEGAL",
+    "subTitle": "Hadir untuk Masyarakat - Official Web Profile",
+    "description": "Organisasi kepemudaan yang berfokus pada aksi sosial, pemberdayaan masyarakat, dan partisipasi politik yang sehat di wilayah Kabupaten Tegal.",
+    "address": "Secretariat Address, No. Maruras 13, BMI. Kabupaten Tegal",
+    "phone": "0888-8888-8888",
+    "email": "email@bmiltegal.com",
+    "social": {
+      "facebook": "https://facebook.com",
+      "instagram": "https://instagram.com",
+      "twitter": "https://twitter.com",
+      "youtube": "https://youtube.com"
+    },
+    "copyright": "© 2024 BMI KAB TEGAL. Memberdayakan Pemuda, Membangun Bangsa"
+  },
+  "heroSlides": [
+    {
+      "id": "hero-1",
+      "title": "BMI KAB TEGAL - Hadir untuk Masyarakat",
+      "subtitle": "Aksi Nyata Pemuda Tegal Bagi Sesama dan Kemajuan Daerah",
+      "image": "https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=1470&auto=format&fit=crop",
+      "active": true
+    },
+    {
+      "id": "hero-2",
+      "title": "Pemberdayaan UMKM Pemuda Tegal",
+      "subtitle": "Mendorong Kemandirian Ekonomi Generasi Muda Kabupaten Tegal",
+      "image": "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1470&auto=format&fit=crop",
+      "active": true
+    },
+    {
+      "id": "hero-3",
+      "title": "Tanggap Bencana & Kepedulian Sosial",
+      "subtitle": "Tim Relawan BMI Siap Siaga Membantu Warga Terdampak",
+      "image": "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?q=80&w=1470&auto=format&fit=crop",
+      "active": true
+    },
+    {
+      "id": "hero-4",
+      "title": "Rapat Koordinasi & Konsolidasi Pemuda",
+      "subtitle": "Perencanaan Strategis Program Kerja BMI Kabupaten Tegal",
+      "image": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1470&auto=format&fit=crop",
+      "active": true
+    }
+  ],
+  "news": [
+    {
+      "id": "news-1790816981532",
+      "title": "AKSI BERSIH DESA BMI TEGAL",
+      "date": "01 Okt 2026",
+      "category": "Aksi Sosial",
+      "image": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=800&auto=format&fit=crop",
+      "excerpt": "Relawan BMI Tegal gelar aksi bersih desa bersama warga setempat.",
+      "content": "Aksi gotong royong pembersihan saluran air dan area sekitar desa oleh puluhan anggota BMI Tegal.",
+      "featured": false
+    },
+    {
+      "id": "news-1",
+      "title": "BMI TEGAL BANTU BANJIR DESA",
+      "date": "28 Jum 2022",
+      "category": "Aksi Sosial",
+      "image": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=800&auto=format&fit=crop",
+      "excerpt": "BMI Tegal bantu banjir desa, desa penurrakan unsam vellage community...",
+      "content": "Kader dan relawan BMI Kabupaten Tegal bergerak cepat menerjunkan tim tanggap bencana untuk membantu warga yang terdampak banjir di Desa Penurakan. Bantuan berupa sembako, pakaian bersih, perlengkapan bayi, serta aksi kerja bakti pembersihan puing-puing sisa banjir dilakukan secara gotong royong bersama masyarakat setempat.",
+      "featured": true
+    },
+    {
+      "id": "news-2",
+      "title": "PELATIHAN UMKM UNTUK PEMUDA",
+      "date": "28 Jum 2022",
+      "category": "Pemberdayaan",
+      "image": "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop",
+      "excerpt": "BMI Tegal, UMKM untuk pemuda pelatihan 5 kantu pemasaran umshii sam...",
+      "content": "Dalam rangka menumbuhkan jiwa wirausaha pemuda Kabupaten Tegal, BMI mengelar workshop dan pelatihan pemasaran digital bagi wirausaha muda. Acara ini dihadiri oleh puluhan peserta dari berbagai kecamatan yang mendapatkan pendampingan manajemen keuangan, branding produk, dan strategi pemasaran di e-commerce.",
+      "featured": true
+    },
+    {
+      "id": "news-3",
+      "title": "PELATIHAN UMKM UNTUK PEMUDA",
+      "date": "28 Jum 2022",
+      "category": "Pemberdayaan",
+      "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop",
+      "excerpt": "BMI Tegal bantu untuk pemuda pelatihan pelatihan UMKM untuk pemuda.",
+      "content": "Pelatihan lanjutan bagi wirausahawan muda yang berfokus pada legalitas usaha, sertifikasi halal, dan pengemasan produk ekspor. BMI Kabupaten Tegal berkomitmen menjembatani akses permodalan dan kemitraan strategis bagi para pelaku UMKM muda.",
+      "featured": true
+    },
+    {
+      "id": "news-4",
+      "title": "Rapat Koordinasi BMI KAB TEGAL",
+      "date": "26 Juni 2022",
+      "category": "Organisasi",
+      "image": "https://images.unsplash.com/photo-1531497865144-0464ef8fb9a9?q=80&w=800&auto=format&fit=crop",
+      "excerpt": "Rapat Koordinasi BMI KAB TEGAL Rapat Koordinasi BMI TEGAL community...",
+      "content": "Pengurus DPC BMI Kabupaten Tegal menyelenggarakan Rapat Koordinasi Wilayah untuk mengevaluasi capaian program semester pertama serta memantapkan agenda bakti sosial daerah jelang akhir tahun. Rapat dipimpin langsung oleh Ketua BMI Kabupaten Tegal.",
+      "featured": false
+    },
+    {
+      "id": "news-5",
+      "title": "BMI Tegal Salurkan Bantuan Masker",
+      "date": "26 Juni 2022",
+      "category": "Kesehatan",
+      "image": "https://images.unsplash.com/photo-1584634731339-252c581abfc5?q=80&w=800&auto=format&fit=crop",
+      "excerpt": "BMI Tegal Salurkan Bantuan Masker pempusanran sutikan dan perkarrianya...",
+      "content": "Wujud nyata kepedulian kesehatan lingkungan, pengurus BMI membagikan ribuan masker medis gratis dan paket vitamin di fasilitas publik dan pasar tradisional guna mendukung kesehatan warga Kabupaten Tegal.",
+      "featured": false
+    },
+    {
+      "id": "news-6",
+      "title": "BMI Tegal Salurkan Bantuan Masker",
+      "date": "26 Juni 2022",
+      "category": "Kesehatan",
+      "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop",
+      "excerpt": "BMI Tegal Salurkan Bantuan Masker mengiuusi un-atem dan salurkan bantuan masker...",
+      "content": "Aksi lanjutan pembagian masker medis dan penyemprotan disinfektan di pemukiman padat penduduk serta fasilitas ibadah di sekitar wilayah Kabupaten Tegal.",
+      "featured": false
+    }
+  ],
+  "layanan": [
+    {
+      "id": "req-3222",
+      "nama": "Boy",
+      "telepon": "0845678765453",
+      "kategori": "Bantuan Sosial & Kebencanaan",
+      "pesan": "Testtt",
+      "status": "Selesai",
+      "createdAt": "2026-10-02T06:23:13.222Z"
+    },
+    {
+      "id": "req-1635",
+      "nama": "Siti Aminah",
+      "telepon": "081298765432",
+      "kategori": "Pemberdayaan UMKM Pemuda",
+      "pesan": "Mohon pendampingan sertifikasi UMKM Slawi.",
+      "status": "Selesai",
+      "createdAt": "2026-10-01T01:09:41.635Z"
+    },
+    {
+      "id": "req-101",
+      "nama": "Siti Nurhaliza",
+      "telepon": "081234567890",
+      "kategori": "Pemberdayaan UMKM",
+      "pesan": "Mohon info dan pendampingan legalitas NIB untuk usaha kuliner rumahan kami di Slawi.",
+      "status": "Diproses",
+      "createdAt": "2026-09-28T10:15:00.000Z"
+    },
+    {
+      "id": "req-102",
+      "nama": "Budi Santoso",
+      "telepon": "085678901234",
+      "kategori": "Bantuan Sosial",
+      "pesan": "Pengajuan bantuan kerja bakti dan alat kebersihan pasca meluapnya sungai desa.",
+      "status": "Selesai",
+      "createdAt": "2026-09-30T14:20:00.000Z"
+    }
+  ],
+  "agenda": [
+    {
+      "id": "agenda-1791162058298",
+      "title": "Workshop Digital",
+      "kecamatan": "pangkah",
+      "desc": "Mari belajar digital",
+      "schedule": "Senin, 14 Oktober 2026",
+      "badge": "Teknologi",
+      "impact": "50",
+      "location": "Balai Desa Pangkah",
+      "status": "Berjalan",
+      "image": "https://images.unsplash.com/photo-1531497865144-0464ef8fb9a9?q=80&w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "agenda-1",
+      "title": "Pendampingan Legalitas NIB Gratis Bagi 100 UMKM Pemuda Desa",
+      "kecamatan": "Kecamatan Slawi & Adiwerna",
+      "desc": "Fasilitasi pembuatan NIB dan izin edar gratis bagi wirausaha muda desa agar mudah mengakses perbankan dan program permodalan daerah.",
+      "schedule": "Setiap Hari Sabtu (09.00 - 15.00 WIB)",
+      "badge": "Ekonomi Kreatif",
+      "impact": "100+ Izin NIB Terbit",
+      "location": "Pendopo Kecamatan Slawi"
+    },
+    {
+      "id": "agenda-2",
+      "title": "Posko Relawan & Dapur Umum Tanggap Bencana Banjir",
+      "kecamatan": "Kecamatan Kramat & Suradadi",
+      "desc": "Penyiapan makanan hangat, penyaluran air bersih, selimut, dan obat-obatan bagi warga terdampak luapan sungai di pesisir utara Tegal.",
+      "schedule": "Aksi Tanggap Cepat Relawan",
+      "badge": "Kemanusiaan",
+      "impact": "1.200+ Paket Logistik",
+      "location": "Kawasan Pesisir Suradadi"
+    },
+    {
+      "id": "agenda-3",
+      "title": "Workshop Digital Branding & Fotografi Produk Pakai HP",
+      "kecamatan": "Kecamatan Pangkah & Lebaksiu",
+      "desc": "Pelatihan praktis teknik pencahayaan dan foto katalog produk UMKM desa memanfaatkan kamera ponsel untuk kebutuhan jualan online.",
+      "schedule": "Minggu Ke-2 Setiap Bulan",
+      "badge": "Digitalisasi",
+      "impact": "85 Pemuda Terlatih",
+      "location": "Balai Desa Pangkah"
+    },
+    {
+      "id": "agenda-4",
+      "title": "Bakti Sosial Donor Darah & Cek Kesehatan Lansia Gratis",
+      "kecamatan": "Kecamatan Margasari & Bumijawa",
+      "desc": "Kerjasama dengan PMI Kabupaten Tegal dalam penyediaan stok darah serta pemeriksaan gula darah & asam urat gratis bagi warga desa.",
+      "schedule": "Kegiatan Triwulan",
+      "badge": "Kesehatan",
+      "impact": "250 Kantong Darah",
+      "location": "Pendopo Kecamatan Bumijawa"
+    }
+  ],
+  "team": [
+    {
+      "id": "team-1",
+      "name": "H. Bambang Sutrisno, S.T.",
+      "role": "Ketua DPC BMI Kab. Tegal",
+      "image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop",
+      "tag": "Pimpinan Organisasi"
+    },
+    {
+      "id": "team-2",
+      "name": "Rian Hidayat, S.Sos.",
+      "role": "Sekretaris DPC BMI Kab. Tegal",
+      "image": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=600&auto=format&fit=crop",
+      "tag": "Keorganisasian"
+    },
+    {
+      "id": "team-3",
+      "name": "Dewi Anggraeni, S.E.",
+      "role": "Bendahara DPC BMI Kab. Tegal",
+      "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop",
+      "tag": "Keuangan"
+    },
+    {
+      "id": "team-4",
+      "name": "Ahmad Fauzi, S.Kom.",
+      "role": "Ketua Bidang UMKM Pemuda",
+      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop",
+      "tag": "Pemberdayaan UMKM"
+    }
+  ],
+  "about": {
+    "heroTitle": "Mewujudkan Pemuda Berdaya Saing, Mandiri & Bergotong Royong",
+    "heroSubtitle": "DPC Banteng Muda Indonesia Kabupaten Tegal hadir sebagai wadah aksi nyata kepemudaan dalam penanggulangan bencana, pembinaan wirausaha UMKM desa, dan pelayanan sosial di 18 kecamatan.",
+    "metric1Val": "18",
+    "metric1Lbl": "Kecamatan Terjangkau",
+    "metric2Val": "150+",
+    "metric2Lbl": "Aksi Sosial & Relawan",
+    "metric3Val": "350+",
+    "metric3Lbl": "UMKM Binaan Pemuda",
+    "metric4Val": "10.000+",
+    "metric4Lbl": "Penerima Bantuan",
+    "sejarahTag": "PERAN & SEJARAH",
+    "sejarahTitle": "Gerakan Pemuda Berjiwa Social Impact & Gotong Royong",
+    "sejarahLead": "DPC BMI Kabupaten Tegal merupakan wadah kepemudaan yang berdiri di atas semangat gotong royong dan kepedulian sosial untuk bergerak bersama masyarakat.",
+    "sejarahBody": "Kami hadir melayani warga di 18 kecamatan — dari kawasan pesisir Suradadi hingga lereng Bumijawa — melalui aksi relawan bencana, bakti sosial, donor darah, hingga pendampingan izin legalitas NIB dan pemasaran digital bagi UMKM pemuda desa.",
+    "sejarahImage": "https://images.unsplash.com/photo-1559027615-cd4628902d4a?q=80&w=800&auto=format&fit=crop",
+    "sejarahBadgeText": "18 Kecamatan",
+    "sejarahBadgeSub": "Jaringan Relawan & Pengurus",
+    "highlight1Title": "Aksi Tanggap Sosial & Relawan",
+    "highlight1Desc": "Penyaluran bantuan logistik bencana, aksi donor darah, dan bakti sosial gotong royong warga.",
+    "highlight2Title": "Klinik UMKM & Inkubasi Pemuda",
+    "highlight2Desc": "Pendampingan pembuatan legalitas NIB, perbaikan desain kemasan, dan edukasi pemasaran digital gratis.",
+    "highlight3Title": "Partisipasi & Kepemimpinan Pemuda",
+    "highlight3Desc": "Ruang kaderisasi pemuda desa untuk aktif berorganisasi dan berkontribusi dalam pembangunan daerah.",
+    "visiTitle": "Mewujudkan Generasi Muda Berdaya Saing & Bergotong Royong",
+    "visiDesc": "Mewujudkan generasi muda Kabupaten Tegal yang mandiri, berkarakter gotong royong, berdaya saing tinggi dalam ekonomi kreatif UMKM, serta peduli terhadap kesejahteraan sosial masyarakat.",
+    "misiList": [
+      "Menerjunkan tim relawan dalam setiap aksi sosial dan penanggulangan bencana di Kabupaten Tegal.",
+      "Menyelenggarakan pelatihan dan pendampingan UMKM bagi wirausahawan pemuda desa.",
+      "Memperkuat sinergi antara generasi muda dengan tokoh masyarakat dan pemerintah daerah.",
+      "Mendorong partisipasi aktif pemuda dalam kegiatan kemasyarakatan dan kepemimpinan."
+    ],
+    "pilar1Title": "Gotong Royong",
+    "pilar1Desc": "Bahu-membahu bersama warga tanpa membedakan latar belakang demi kemajuan daerah.",
+    "pilar2Title": "Pemberdayaan UMKM",
+    "pilar2Desc": "Mendampingi wirausaha muda dari perizinan legalitas hingga strategi pemasaran digital.",
+    "pilar3Title": "Tanggap Bencana",
+    "pilar3Desc": "Sigap dan cepat hadir membantu warga terdampak musibah banjir dan krisis sosial.",
+    "pilar4Title": "Kemandirian Pemuda",
+    "pilar4Desc": "Membentuk karakter pemuda yang berani berkarya, berorientasi solusi, dan inovatif.",
+    "kecamatanDesc": "Jaringan pengurus dan relawan BMI tersebar merata di seluruh wilayah Kabupaten Tegal.",
+    "kecamatanList": [
+      "Slawi",
+      "Adiwerna",
+      "Dukuhturi",
+      "Talang",
+      "Kramat",
+      "Suradadi",
+      "Warureja",
+      "Pangkah",
+      "Lebaksiu",
+      "Balapulang",
+      "Margasari",
+      "Bumijawa",
+      "Bojong",
+      "Jatinegara",
+      "Pagerbarang",
+      "Dukuhwaru",
+      "Kedungbanteng",
+      "Tarub"
+    ],
+    "kantorTitle": "Lokasi Kantor & Sekretariat",
+    "kantorSub": "Kantor DPC Banteng Muda Indonesia Kabupaten Tegal terbuka untuk ruang aspirasi, konsultasi wirausaha, dan layanan masyarakat.",
+    "kantorAlamat": "Jl. Prof. Muhammad Yamin No. 12, Pakembaran, Kec. Slawi, Kabupaten Tegal, Jawa Tengah 52415",
+    "kantorJam": "Senin - Sabtu: 08.00 - 16.00 WIB (Hari Minggu / Libur Nasional Tutup)",
+    "kantorPhone": "+62 812-3456-7890 (Humas DPC BMI Kab. Tegal)",
+    "kantorEmail": "dpc@bmitegal.or.id / sekretariat@bmitegal.or.id",
+    "kantorMapsUrl": "https://maps.google.com/?q=Slawi+Kabupaten+Tegal",
+    "ctaTag": "LAYANAN & ASPIRASI MASYARAKAT",
+    "ctaTitle": "DPC BMI Kab. Tegal Hadir Melayani Warga",
+    "ctaDesc": "Sampaikan aspirasi, permohonan pendampingan NIB UMKM desa, atau ajukan permohonan relawan aksi sosial."
+  },
+  "agendaPageContent": {
+    "heroTag": "PROGRAM & AGENDA KERJA DPC BMI",
+    "heroTitle": "Aksi Nyata & Agenda Kerja Gotong Royong",
+    "heroSubtitle": "Jadwal pelatihan UMKM, bakti sosial relawan, posko bencana, dan sekolah kader kepemudaan di 18 kecamatan Kabupaten Tegal.",
+    "heroTrust1": "Aktif di 18 Kecamatan",
+    "heroTrust2": "350+ UMKM Pemuda Binaan",
+    "heroTrust3": "Tanggap Bencana & Relawan",
+    "eventSpotlightPill": "AGENDA MENDATANG",
+    "eventSpotlightCategory": "Pemberdayaan Ekonomi",
+    "eventSpotlightTitle": "Pelatihan Inkubasi UMKM Pemuda & Fasilitasi NIB Gratis",
+    "eventSpotlightSchedule": "12 Oktober 2026 (09.00 WIB)",
+    "eventSpotlightLocation": "Pendopo Kecamatan Slawi",
+    "spotlightBadge": "PROGRAM UNGGULAN 2024",
+    "spotlightCategory": "PEMBERDAYAAN EKONOMI KREATIF",
+    "spotlightTitle": "Klinik Inkubasi & Pendampingan NIB Gratis Bagi 1.000 UMKM Pemuda Desa",
+    "spotlightDesc": "Program strategis DPC BMI Kabupaten Tegal untuk membantu wirausaha muda di pedesaan memperoleh legalitas resmi, sertifikasi halal, pendampingan kemasan, dan pengusulan akses modal KUR daerah.",
+    "spotlightImage": "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1000&auto=format&fit=crop",
+    "spotlightFeat1": "Fasilitasi NIB & Sertifikat Halal Gratis",
+    "spotlightFeat2": "Desain Kemasan Modern & Foto Produk HP",
+    "spotlightFeat3": "Pelatihan Penjualan Online via TikTok Shop & Shopee",
+    "spotlightBtnText": "Daftar Konsultasi UMKM",
+    "spotlightBtnUrl": "",
+    "pillarsTag": "PILAR GERAKAN",
+    "pillarsTitle": "4 Fokus Program Kerja Utama",
+    "pillarsDesc": "Empat pilar utama pendorong aksi nyata relawan dan kader BMI di Kabupaten Tegal.",
+    "pillarsList": [
+      {
+        "id": "pilar-1",
+        "title": "Gotong Royong & Kemanusiaan",
+        "desc": "Bahu-membahu bersama warga tanpa membedakan latar belakang demi kemajuan daerah dan tanggap bencana.",
+        "category": "Sosial & Kemanusiaan",
+        "status": "Aktif Berkelanjutan",
+        "stats": "18 Kecamatan",
+        "kecamatan": "Seluruh Kab. Tegal",
+        "image": "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=800"
+      },
+      {
+        "id": "pilar-2",
+        "title": "Pemberdayaan UMKM Pemuda",
+        "desc": "Mendampingi wirausaha muda dari perizinan legalitas, sertifikasi halal, hingga strategi pemasaran digital.",
+        "category": "Ekonomi Kreatif",
+        "status": "Program Prioritas",
+        "stats": "350+ UMKM Binaan",
+        "kecamatan": "Adiwerna, Slawi, Kramat",
+        "image": "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=800"
+      },
+      {
+        "id": "pilar-3",
+        "title": "Tanggap Bencana & Aksi Cepat",
+        "desc": "Sigap dan cepat hadir membantu warga terdampak musibah banjir, krisis sosial, dan respon darurat.",
+        "category": "Relawan & Posko",
+        "status": "Siaga 24 Jam",
+        "stats": "12 Posko Desa",
+        "kecamatan": "Margasari, Bumijawa, Suradadi",
+        "image": "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&q=80&w=800"
+      },
+      {
+        "id": "pilar-4",
+        "title": "Kemandirian & Kaderisasi Pemuda",
+        "desc": "Membentuk karakter pemuda yang berani berkarya, berorientasi solusi, dan berjiwa kepemimpinan tinggi.",
+        "category": "Pendidikan & Kepemimpinan",
+        "status": "Pelatihan Rutin",
+        "stats": "1.200+ Kader",
+        "kecamatan": "Dukuhturi, Talang, Lebaksiu",
+        "image": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80&w=800"
+      }
+    ],
+    "realisasiTag": "REKAM JEJAK AGENDA",
+    "realisasiTitle": "Agenda Realisasi Program",
+    "realisasiDesc": "Rekam kegiatan & aksi nyata langsung di tengah masyarakat desa.",
+    "ctaTag": "KOLABORASI & USULAN PROGRAM",
+    "ctaTitle": "Ingin Mengusulkan Program atau Berkolaborasi di Desamu?",
+    "ctaDesc": "Kader dan relawan DPC Banteng Muda Indonesia Kabupaten Tegal siap hadir dan bergotong royong menjalankan aksi nyata bersama warga desa Anda.",
+    "ctaBtnText": "Usulkan Program",
+    "ctaBtnUrl": ""
+  }
+}

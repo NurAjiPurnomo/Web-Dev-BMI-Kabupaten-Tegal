@@ -1,0 +1,1195 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import LayananModal from '../components/LayananModal.astro';
+import { fetchSiteSettings, fetchAgendaList, fetchAboutContent, fetchAgendaPageContent } from '../lib/supabase';
+
+const settings = await fetchSiteSettings();
+const programAgenda = await fetchAgendaList();
+const aboutContent = await fetchAboutContent();
+const agendaContent = await fetchAgendaPageContent();
+
+const defaultPillars = [
+  {
+    id: '1',
+    title: 'Gotong Royong & Kemanusiaan',
+    desc: 'Bahu-membahu bersama warga tanpa membedakan latar belakang demi kemajuan daerah dan tanggap bencana.',
+    category: 'Sosial & Kemanusiaan',
+    status: 'Aktif Berkelanjutan',
+    stats: '18 Kecamatan',
+    kecamatan: 'Seluruh Kab. Tegal',
+    image: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: '2',
+    title: 'Pemberdayaan UMKM Pemuda',
+    desc: 'Mendampingi wirausaha muda dari perizinan legalitas, sertifikasi halal, hingga strategi pemasaran digital.',
+    category: 'Ekonomi Kreatif',
+    status: 'Program Prioritas',
+    stats: '350+ UMKM Binaan',
+    kecamatan: 'Adiwerna, Slawi, Kramat',
+    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: '3',
+    title: 'Tanggap Bencana & Aksi Cepat',
+    desc: 'Sigap dan cepat hadir membantu warga terdampak musibah banjir, krisis sosial, dan respon darurat.',
+    category: 'Relawan & Posko',
+    status: 'Siaga 24 Jam',
+    stats: '12 Posko Desa',
+    kecamatan: 'Margasari, Bumijawa, Suradadi',
+    image: 'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: '4',
+    title: 'Kemandirian & Kaderisasi Pemuda',
+    desc: 'Membentuk karakter pemuda yang berani berkarya, berorientasi solusi, dan berjiwa kepemimpinan tinggi.',
+    category: 'Pendidikan & Kepemimpinan',
+    status: 'Pelatihan Rutin',
+    stats: '1.200+ Kader',
+    kecamatan: 'Dukuhturi, Talang, Lebaksiu',
+    image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80&w=800'
+  }
+];
+
+const programPillars = (agendaContent.pillarsList && agendaContent.pillarsList.length > 0)
+  ? agendaContent.pillarsList
+  : defaultPillars;
+---
+
+<Layout title={`Program Kerja & Inisiatif Unggulan - ${settings.siteName}`} description="Program kerja resmi, 4 pilar gerakan pemuda, aksi sosial kemanusiaan, dan pendampingan UMKM DPC BMI Kabupaten Tegal.">
+  <Header siteName={settings.siteName} />
+
+  <main class="program-page-wrapper">
+    <!-- Hero Section Agenda Portal (Distinct & Purpose-Built UI) -->
+    <section class="agenda-hero-portal">
+      <div class="section-container relative-z hero-main-flex-wrapper">
+        <div class="hero-split-grid">
+          <!-- Left Content -->
+          <div class="hero-content-col">
+            <span class="sub-heading-pill">{agendaContent.heroTag || 'PROGRAM & AGENDA KERJA DPC BMI'}</span>
+
+            <h1 class="hero-title-light">
+              {agendaContent.heroTitle || 'Aksi Nyata & Agenda Kerja Gotong Royong'}
+            </h1>
+
+            <p class="hero-subtitle-light">
+              {agendaContent.heroSubtitle || 'Jadwal pelatihan UMKM, bakti sosial relawan, posko bencana, dan sekolah kader kepemudaan di 18 kecamatan Kabupaten Tegal.'}
+            </p>
+
+            <div class="hero-cta-group">
+              <a href="#usulkan-program" class="btn-primary-red">
+                <span>Usulkan Program</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <a href="#agenda-realisasi" class="btn-secondary-outline">
+                <span>Lihat Rekam Jejak</span>
+              </a>
+            </div>
+
+            <div class="hero-trust-bullets">
+              <div class="trust-bullet-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>{agendaContent.heroTrust1 || 'Aktif di 18 Kecamatan'}</span>
+              </div>
+              <div class="trust-bullet-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>{agendaContent.heroTrust2 || '350+ UMKM Pemuda Binaan'}</span>
+              </div>
+              <div class="trust-bullet-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>{agendaContent.heroTrust3 || 'Tanggap Bencana & Relawan'}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Live Event Spotlight Card (Distinct Agenda Visual) -->
+          <div class="hero-event-col">
+            <div class="live-event-card">
+              <div class="event-card-header">
+                <span class="live-status-pill">{agendaContent.eventSpotlightPill || 'AGENDA MENDATANG'}</span>
+                <span class="event-cat-tag">{agendaContent.eventSpotlightCategory || 'Pemberdayaan Ekonomi'}</span>
+              </div>
+              <h3 class="event-card-title">{agendaContent.eventSpotlightTitle || 'Pelatihan Inkubasi UMKM Pemuda & Fasilitasi NIB Gratis'}</h3>
+              <div class="event-meta-stack">
+                <div class="event-meta-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  <span>{agendaContent.eventSpotlightSchedule || '12 Oktober 2026 (09.00 WIB)'}</span>
+                </div>
+                <div class="event-meta-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  <span>{agendaContent.eventSpotlightLocation || 'Pendopo Kecamatan Slawi'}</span>
+                </div>
+              </div>
+              <a href="#inisiatif-utama" class="btn-event-detail">
+                <span>Lihat Detail Agenda</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Spotlight Program Showcase -->
+    <section class="spotlight-section" id="inisiatif-utama">
+      <div class="section-container">
+        <div class="spotlight-card">
+          <div class="spot-img-side">
+            <img src={agendaContent.spotlightImage || 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1000&auto=format&fit=crop'} alt={agendaContent.spotlightTitle} class="spot-img" />
+            <span class="spot-badge-top">{agendaContent.spotlightBadge || 'PROGRAM UNGGULAN 2024'}</span>
+          </div>
+          <div class="spot-info-side">
+            <span class="spot-cat-label">{agendaContent.spotlightCategory || 'PEMBERDAYAAN EKONOMI KREATIF'}</span>
+            <h2 class="spot-title">{agendaContent.spotlightTitle || 'Klinik Inkubasi & Pendampingan NIB Gratis Bagi 1.000 UMKM Pemuda Desa'}</h2>
+            <p class="spot-desc">
+              {agendaContent.spotlightDesc || 'Program strategis DPC BMI Kabupaten Tegal untuk membantu wirausaha muda di pedesaan memperoleh legalitas resmi, sertifikasi halal, pendampingan kemasan, dan pengusulan akses modal KUR daerah.'}
+            </p>
+            <div class="spot-features-list">
+              <div class="spot-feat-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="spot-icon"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>{agendaContent.spotlightFeat1 || 'Fasilitasi NIB & Sertifikat Halal Gratis'}</span>
+              </div>
+              <div class="spot-feat-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="spot-icon"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>{agendaContent.spotlightFeat2 || 'Desain Kemasan Modern & Foto Produk HP'}</span>
+              </div>
+              <div class="spot-feat-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="spot-icon"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>{agendaContent.spotlightFeat3 || 'Pelatihan Penjualan Online via TikTok Shop & Shopee'}</span>
+              </div>
+            </div>
+            {agendaContent.spotlightBtnUrl ? (
+              <a href={agendaContent.spotlightBtnUrl} target="_blank" rel="noopener noreferrer" class="btn-spotlight-cta">
+                <span>{agendaContent.spotlightBtnText || 'Daftar Konsultasi UMKM'}</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            ) : (
+              <button id="open-spotlight-modal" class="btn-spotlight-cta">
+                <span>{agendaContent.spotlightBtnText || 'Daftar Konsultasi UMKM'}</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 Pilar Gerakan Utama -->
+    <section class="pillars-section bg-white" id="pilar-program">
+      <div class="section-container">
+        <div class="title-wrapper text-center">
+          <span class="sub-heading-pill">{agendaContent.pillarsTag || 'PILAR GERAKAN'}</span>
+          <h2 class="section-title">
+            {agendaContent.pillarsTitle || '4 Fokus Program Kerja Utama'}
+          </h2>
+          <p class="section-desc-center">{agendaContent.pillarsDesc || 'Empat pilar utama pendorong aksi nyata relawan dan kader BMI di Kabupaten Tegal.'}</p>
+        </div>
+
+        <div class="pillars-cards-grid">
+          {programPillars.map((pilar) => (
+            <div class="pilar-card">
+              <div class="pilar-img-wrap">
+                <img src={pilar.image} alt={pilar.title} class="pilar-img" />
+                <span class="glass-cat-badge">{pilar.category}</span>
+              </div>
+              <div class="pilar-body">
+                <div class="pilar-meta-row">
+                  <span class="pilar-status-badge">{pilar.status}</span>
+                  <span class="pilar-stats-num">{pilar.stats}</span>
+                </div>
+                <h3 class="pilar-card-title">{pilar.title}</h3>
+                <p class="pilar-card-desc">{pilar.desc}</p>
+                <div class="pilar-footer-loc">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  <span>Wilayah: {pilar.kecamatan}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Indeks Agenda Program Terlaksana & Berjalan -->
+    <section class="agenda-section bg-light" id="agenda-realisasi">
+      <div class="section-container">
+        <div class="title-wrapper text-center">
+          <span class="sub-heading-pill">{agendaContent.realisasiTag || 'REKAM JEJAK AGENDA'}</span>
+          <h2 class="section-title">
+            {agendaContent.realisasiTitle || 'Agenda Realisasi Program'}
+          </h2>
+          <p class="section-desc-center">{agendaContent.realisasiDesc || 'Rekam kegiatan & aksi nyata langsung di tengah masyarakat desa.'}</p>
+        </div>
+
+        <div class="agenda-grid">
+          {programAgenda.map((item) => (
+            <div class="agenda-card">
+              <div class="agenda-card-header">
+                <span class="agenda-badge">{item.badge}</span>
+                <span class="agenda-impact-pill">{item.impact}</span>
+              </div>
+              <h3 class="agenda-title">{item.title}</h3>
+              <p class="agenda-desc">{item.desc}</p>
+              <div class="agenda-meta">
+                <div class="meta-row">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="meta-icon"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  <span>{item.schedule}</span>
+                </div>
+                <div class="meta-row">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="meta-icon"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  <span>{item.kecamatan}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Corporate Collaboration CTA Banner (Sleek Minimalist Corporate Strip) -->
+    <section class="collaboration-cta" id="usulkan-program">
+      <div class="section-container cta-box-flex">
+        <div class="cta-text-col">
+          <span class="sub-heading-pill">{agendaContent.ctaTag || 'KOLABORASI & USULAN PROGRAM'}</span>
+          <h2 class="cta-title">{agendaContent.ctaTitle || 'Ingin Mengusulkan Program atau Berkolaborasi di Desamu?'}</h2>
+          <p class="cta-desc">{agendaContent.ctaDesc || 'Kader dan relawan DPC Banteng Muda Indonesia Kabupaten Tegal siap hadir dan bergotong royong menjalankan aksi nyata bersama warga desa Anda.'}</p>
+        </div>
+        <div class="cta-btn-col">
+          {agendaContent.ctaBtnUrl ? (
+            <a href={agendaContent.ctaBtnUrl} target="_blank" rel="noopener noreferrer" class="btn-primary-red">
+              <span>{agendaContent.ctaBtnText || 'Usulkan Program'}</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          ) : (
+            <button id="open-collab-modal" class="btn-primary-red">
+              <span>{agendaContent.ctaBtnText || 'Usulkan Program'}</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          )}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer settings={settings} />
+  <LayananModal />
+</Layout>
+
+<style>
+  .program-page-wrapper {
+    background-color: #FFFFFF;
+  }
+
+  .section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  @media (max-width: 768px) {
+    .section-container {
+      padding: 0 16px;
+    }
+  }
+
+  /* Hero Section Agenda Portal (Distinct & Purpose-Built UI) */
+  .agenda-hero-portal {
+    position: relative;
+    background: linear-gradient(135deg, #FFF5F5 0%, #FFFFFF 55%, #F8FAFC 100%);
+    padding: 44px 0 0 0;
+    overflow: hidden;
+    border-bottom: 1px solid #F1F5F9;
+  }
+
+  .relative-z {
+    position: relative;
+    z-index: 10;
+  }
+
+  .hero-main-flex-wrapper {
+    width: 100%;
+    padding-bottom: 32px;
+  }
+
+  .hero-split-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    gap: 36px;
+    align-items: center;
+  }
+
+  .hero-content-col {
+    text-align: left;
+  }
+
+  .sub-heading-pill {
+    display: inline-block;
+    color: var(--primary-red);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .hero-title-light {
+    font-size: 2.35rem;
+    font-weight: 800;
+    color: #0F172A;
+    font-family: var(--font-heading);
+    line-height: 1.25;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+  }
+
+  .text-red {
+    color: var(--primary-red);
+    font-weight: 800;
+  }
+
+  .hero-subtitle-light {
+    font-size: 1rem;
+    color: #475569;
+    line-height: 1.65;
+    max-width: 580px;
+    margin: 0 0 24px 0;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    justify-content: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+
+  .btn-primary-red {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--primary-red);
+    color: #FFFFFF;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 14px 28px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 16px rgba(227, 6, 19, 0.25);
+  }
+
+  .btn-primary-red:hover {
+    background: var(--dark-red);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(227, 6, 19, 0.35);
+  }
+
+  .btn-secondary-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #FFFFFF;
+    color: #1E293B;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 14px 28px;
+    border-radius: 10px;
+    border: 1px solid #CBD5E1;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .btn-secondary-outline:hover {
+    border-color: var(--primary-red);
+    color: var(--primary-red);
+    transform: translateY(-2px);
+  }
+
+  .hero-trust-bullets {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px dashed #E2E8F0;
+    flex-wrap: wrap;
+  }
+
+  .trust-bullet-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #475569;
+  }
+
+  .trust-bullet-item svg {
+    color: var(--primary-red);
+    flex-shrink: 0;
+  }
+
+  /* Right Side Live Event Spotlight Card */
+  .hero-event-col {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .live-event-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 22px 24px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    transition: all 0.25s ease;
+  }
+
+  .live-event-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    border-color: rgba(227, 6, 19, 0.3);
+  }
+
+  .event-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .live-status-pill {
+    display: inline-flex;
+    align-items: center;
+    background: #FEF2F2;
+    color: var(--primary-red);
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    border: 1px solid #FCA5A5;
+  }
+
+  .event-cat-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748B;
+  }
+
+  .event-card-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #0F172A;
+    font-family: var(--font-heading);
+    line-height: 1.35;
+    margin-bottom: 14px;
+  }
+
+  .event-meta-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 18px;
+    padding: 14px 0;
+    border-top: 1px solid #F1F5F9;
+    border-bottom: 1px solid #F1F5F9;
+    background: transparent;
+  }
+
+  .event-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #334155;
+  }
+
+  .event-meta-item svg {
+    color: var(--primary-red);
+    flex-shrink: 0;
+  }
+
+  .btn-event-detail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--primary-red);
+    color: #FFFFFF;
+    font-size: 0.88rem;
+    font-weight: 700;
+    padding: 11px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+  }
+
+  .btn-event-detail:hover {
+    background: var(--dark-red);
+    box-shadow: 0 4px 12px rgba(227, 6, 19, 0.25);
+  }
+
+  .trust-bullet-item svg {
+    color: var(--primary-red);
+    flex-shrink: 0;
+  }
+
+  /* Metric Section (AI Recruit Pro Style - Ultra Compact Row) */
+  .metrics-section {
+    background: #F8FAFC;
+    padding: 14px 0;
+    border-top: 1px solid #F1F5F9;
+    border-bottom: 1px solid #F1F5F9;
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .metric-card {
+    background: #FFFFFF;
+    border-radius: 10px;
+    padding: 10px 14px;
+    border: 1px solid #E2E8F0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  }
+
+  .metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(227, 6, 19, 0.08);
+    border-color: rgba(227, 6, 19, 0.3);
+  }
+
+  .metric-icon-box {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: #FFF1F2;
+    color: var(--primary-red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-bottom: 0;
+  }
+
+  .metric-text-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .metric-val {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--primary-red);
+    font-family: var(--font-heading);
+    line-height: 1.1;
+    margin-bottom: 2px;
+  }
+
+  .metric-lbl {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #475569;
+    line-height: 1.25;
+  }
+
+  /* Spotlight Program Showcase */
+  .spotlight-section {
+    padding: 48px 0;
+    background: #FFFFFF;
+  }
+
+  .spotlight-card {
+    background: #FFFFFF;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    border: 1px solid #E2E8F0;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    align-items: stretch;
+  }
+
+  .spot-img-side {
+    position: relative;
+    height: 100%;
+    min-height: 380px;
+  }
+
+  .spot-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .spot-badge-top {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: var(--primary-red);
+    color: #FFFFFF;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 6px 14px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  .spot-info-side {
+    padding: 40px 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .spot-cat-label {
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--primary-red);
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .spot-title {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #0F172A;
+    font-family: var(--font-heading);
+    line-height: 1.3;
+    margin-bottom: 14px;
+  }
+
+  .spot-desc {
+    font-size: 0.92rem;
+    color: #475569;
+    line-height: 1.65;
+    margin-bottom: 22px;
+  }
+
+  .spot-features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .spot-feat-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #334155;
+  }
+
+  .spot-icon {
+    color: var(--primary-red);
+    flex-shrink: 0;
+  }
+
+  .btn-spotlight-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--primary-red);
+    color: #FFFFFF;
+    font-size: 0.92rem;
+    font-weight: 700;
+    padding: 12px 26px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px rgba(227, 6, 19, 0.25);
+    width: fit-content;
+  }
+
+  .btn-spotlight-cta:hover {
+    background-color: var(--dark-red);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(227, 6, 19, 0.4);
+  }
+
+  .bg-white { background: #FFFFFF; }
+  .bg-light { background: #F8FAFC; }
+
+  .title-wrapper {
+    margin-bottom: 32px;
+  }
+
+  .title-wrapper.text-center {
+    text-align: center;
+  }
+
+  .sub-heading-pill {
+    display: inline-block;
+    color: var(--primary-red);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .section-title {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #0F172A;
+    font-family: var(--font-heading);
+    margin: 0;
+    line-height: 1.25;
+    letter-spacing: -0.3px;
+  }
+
+  .center-line {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .section-desc-center {
+    font-size: 0.95rem;
+    color: #4A5568;
+    margin-top: 10px;
+  }
+
+  /* 4 Pilar Section */
+  .pillars-section {
+    padding: 44px 0;
+  }
+
+  .pillars-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+
+  .pilar-card {
+    background: #FFFFFF;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.05);
+    border: 1px solid #E2E8F0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pilar-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(227, 6, 19, 0.15);
+  }
+
+  .pilar-img-wrap {
+    position: relative;
+    width: 100%;
+    height: 230px;
+    overflow: hidden;
+    background: #0F172A;
+  }
+
+  .pilar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .pilar-card:hover .pilar-img {
+    transform: scale(1.05);
+  }
+
+  .glass-cat-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(15, 23, 42, 0.82);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #FFFFFF;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .glass-cat-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--primary-red);
+  }
+
+  .pilar-body {
+    padding: 24px 26px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .pilar-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .pilar-status-badge {
+    background: rgba(227, 6, 19, 0.08);
+    color: var(--primary-red);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+
+  .pilar-stats-num {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #334155;
+  }
+
+  .pilar-card-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #0F172A;
+    font-family: var(--font-heading);
+    line-height: 1.35;
+    margin-bottom: 10px;
+  }
+
+  .pilar-card-desc {
+    font-size: 0.9rem;
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+
+  .pilar-footer-loc {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    color: #64748B;
+    font-weight: 600;
+    padding-top: 14px;
+    border-top: 1px solid #F1F5F9;
+  }
+
+  .pilar-footer-loc svg {
+    color: var(--primary-red);
+  }
+
+  /* Agenda Section */
+  .agenda-section {
+    padding: 44px 0;
+  }
+
+  .agenda-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .agenda-card {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 26px;
+    border: 1px solid #EDF2F7;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .agenda-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(227, 6, 19, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+  }
+
+  .agenda-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .agenda-badge {
+    background: #F1F5F9;
+    color: #334155;
+    font-size: 0.74rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  .agenda-impact-pill {
+    font-size: 0.76rem;
+    font-weight: 800;
+    color: var(--primary-red);
+  }
+
+  .agenda-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #0F172A;
+    font-family: var(--font-heading);
+    margin-bottom: 10px;
+    line-height: 1.35;
+  }
+
+  .agenda-desc {
+    font-size: 0.88rem;
+    color: #475569;
+    line-height: 1.55;
+    margin-bottom: 16px;
+  }
+
+  .agenda-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-top: 12px;
+    border-top: 1px solid #F1F5F9;
+  }
+
+  .meta-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: #64748B;
+    font-weight: 600;
+  }
+
+  .meta-icon {
+    color: var(--primary-red);
+  }
+
+  /* Collaboration CTA - Sleek Minimalist Corporate Strip */
+  .collaboration-cta {
+    padding: 44px 0 54px 0;
+    background: #FFFFFF;
+    border-top: 1px solid #F1F5F9;
+  }
+
+  .cta-box-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .cta-text-col {
+    max-width: 680px;
+    text-align: left;
+  }
+
+  .cta-title {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #0F172A;
+    font-family: var(--font-heading);
+    margin: 4px 0 8px 0;
+    letter-spacing: -0.3px;
+  }
+
+  .cta-desc {
+    font-size: 0.96rem;
+    color: #475569;
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .cta-btn-col {
+    flex-shrink: 0;
+  }
+
+  /* Responsive Rules */
+  @media (max-width: 992px) {
+    .agenda-hero-portal {
+      padding: 36px 0 0 0;
+    }
+    .hero-split-grid {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: 28px;
+    }
+    .hero-content-col {
+      text-align: center;
+    }
+    .hero-content-col .hero-subtitle-light {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero-content-col .hero-cta-group {
+      justify-content: center;
+    }
+    .hero-trust-bullets {
+      justify-content: center;
+    }
+    .hero-event-col {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+    .live-event-card {
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+    .hero-title-light {
+      font-size: 2.1rem;
+    }
+    .metrics-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .spotlight-card {
+      grid-template-columns: 1fr;
+    }
+    .spot-img-side {
+      min-height: 260px;
+    }
+    .spot-info-side {
+      padding: 30px 24px;
+    }
+    .pillars-cards-grid,
+    .agenda-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .agenda-hero-portal {
+      padding: 40px 0 10px 0;
+    }
+    .hero-title-light {
+      font-size: 1.65rem;
+    }
+    .hero-subtitle-light {
+      font-size: 0.92rem;
+    }
+    .hero-cta-group {
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+    .btn-primary-red, .btn-secondary-outline {
+      width: 100%;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+    .hero-trust-bullets {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+      padding-top: 16px;
+    }
+    .trust-bullet-item {
+      font-size: 0.85rem;
+      justify-content: center;
+    }
+    .live-event-card {
+      padding: 20px 16px;
+      border-radius: 12px;
+    }
+    .event-card-title {
+      font-size: 1.05rem;
+    }
+    .event-meta-item {
+      font-size: 0.82rem;
+    }
+    .btn-event-detail {
+      width: 100%;
+      justify-content: center;
+    }
+    .spot-title {
+      font-size: 1.35rem;
+    }
+    .cta-box-flex {
+      flex-direction: column;
+      text-align: center;
+    }
+    .btn-spotlight-cta {
+      width: 100%;
+      justify-content: center;
+    }
+    .metrics-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .metric-card {
+      padding: 10px 10px;
+      gap: 8px;
+    }
+    .metric-val {
+      font-size: 1.15rem;
+    }
+    .metric-lbl {
+      font-size: 0.76rem;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .metrics-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const spotBtn = document.getElementById('open-spotlight-modal');
+    const collabBtn = document.getElementById('open-collab-modal');
+    const modal = document.getElementById('layanan-modal');
+
+    spotBtn?.addEventListener('click', () => {
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+
+    collabBtn?.addEventListener('click', () => {
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+</script>
