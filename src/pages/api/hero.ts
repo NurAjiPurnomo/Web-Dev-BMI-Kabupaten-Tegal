@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getDB, saveDB, type HeroSlide } from '../../lib/db';
-import { supabase, isSupabaseConfigured, fetchHeroSlides } from '../../lib/supabase';
+import { getSupabase, fetchHeroSlides } from '../../lib/supabase';
 
 export const GET: APIRoute = async () => {
   const slides = await fetchHeroSlides();
@@ -21,15 +21,19 @@ export const POST: APIRoute = async ({ request }) => {
       active: data.active !== undefined ? data.active : true
     };
 
-    if (isSupabaseConfigured() && supabase) {
-      const { error } = await supabase.from('hero_slides').insert([{
+    const client = getSupabase();
+    if (client) {
+      const { error } = await client.from('hero_slides').insert([{
         id: newSlide.id,
         title: newSlide.title,
         subtitle: newSlide.subtitle,
         image: newSlide.image,
         active: newSlide.active
       }]);
-      if (error) console.error('Supabase hero insert error:', error);
+      if (error) {
+        console.error('Supabase hero insert error:', error);
+        return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+      }
     }
 
     const db = getDB();
@@ -47,13 +51,18 @@ export const PUT: APIRoute = async ({ request }) => {
     const data = await request.json();
     if (!data.id) return new Response(JSON.stringify({ error: 'ID required' }), { status: 400 });
 
-    if (isSupabaseConfigured() && supabase) {
-      await supabase.from('hero_slides').update({
+    const client = getSupabase();
+    if (client) {
+      const { error } = await client.from('hero_slides').update({
         title: data.title,
         subtitle: data.subtitle,
         image: data.image,
         active: data.active
       }).eq('id', data.id);
+      if (error) {
+        console.error('Supabase hero update error:', error);
+        return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+      }
     }
 
     const db = getDB();
@@ -75,8 +84,13 @@ export const DELETE: APIRoute = async ({ request }) => {
     const id = url.searchParams.get('id');
     if (!id) return new Response(JSON.stringify({ error: 'ID required' }), { status: 400 });
 
-    if (isSupabaseConfigured() && supabase) {
-      await supabase.from('hero_slides').delete().eq('id', id);
+    const client = getSupabase();
+    if (client) {
+      const { error } = await client.from('hero_slides').delete().eq('id', id);
+      if (error) {
+        console.error('Supabase hero delete error:', error);
+        return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+      }
     }
 
     const db = getDB();

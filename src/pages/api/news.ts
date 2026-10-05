@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getDB, saveDB, type NewsItem } from '../../lib/db';
-import { supabase, isSupabaseConfigured, fetchNewsList } from '../../lib/supabase';
+import { getSupabase, fetchNewsList } from '../../lib/supabase';
 
 export const GET: APIRoute = async () => {
   const news = await fetchNewsList();
@@ -24,8 +24,9 @@ export const POST: APIRoute = async ({ request }) => {
       featured: data.featured || false
     };
 
-    if (isSupabaseConfigured() && supabase) {
-      const { error } = await supabase.from('news').insert([{
+    const client = getSupabase();
+    if (client) {
+      const { error } = await client.from('news').insert([{
         id: newItem.id,
         title: newItem.title,
         date: newItem.date,
@@ -35,10 +36,12 @@ export const POST: APIRoute = async ({ request }) => {
         content: newItem.content,
         featured: newItem.featured
       }]);
-      if (error) console.error('Supabase news insert error:', error);
+      if (error) {
+        console.error('Supabase news insert error:', error);
+        return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+      }
     }
 
-    // Always update local fallback db as backup
     const db = getDB();
     db.news.unshift(newItem);
     saveDB(db);
@@ -54,8 +57,9 @@ export const PUT: APIRoute = async ({ request }) => {
     const data = await request.json();
     if (!data.id) return new Response(JSON.stringify({ error: 'ID required' }), { status: 400 });
 
-    if (isSupabaseConfigured() && supabase) {
-      const { error } = await supabase.from('news').update({
+    const client = getSupabase();
+    if (client) {
+      const { error } = await client.from('news').update({
         title: data.title,
         date: data.date,
         category: data.category,
@@ -64,7 +68,10 @@ export const PUT: APIRoute = async ({ request }) => {
         content: data.content,
         featured: data.featured
       }).eq('id', data.id);
-      if (error) console.error('Supabase news update error:', error);
+      if (error) {
+        console.error('Supabase news update error:', error);
+        return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+      }
     }
 
     const db = getDB();
@@ -86,8 +93,13 @@ export const DELETE: APIRoute = async ({ request }) => {
     const id = url.searchParams.get('id');
     if (!id) return new Response(JSON.stringify({ error: 'ID required' }), { status: 400 });
 
-    if (isSupabaseConfigured() && supabase) {
-      await supabase.from('news').delete().eq('id', id);
+    const client = getSupabase();
+    if (client) {
+      const { error } = await client.from('news').delete().eq('id', id);
+      if (error) {
+        console.error('Supabase news delete error:', error);
+        return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+      }
     }
 
     const db = getDB();

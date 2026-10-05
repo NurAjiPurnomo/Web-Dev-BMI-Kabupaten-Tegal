@@ -1,30 +1,54 @@
 import { createClient } from '@supabase/supabase-js';
 import { getDB, saveDB, type DatabaseSchema, type NewsItem, type HeroSlide, type LayananRequest, type SiteSettings, type AgendaPageContent } from './db';
 
-const supabaseUrl = process.env.PUBLIC_SUPABASE_URL || import.meta.env.PUBLIC_SUPABASE_URL || '';
-const supabaseAnonKey = process.env.PUBLIC_SUPABASE_ANON_KEY || import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
+export function getSupabaseUrl(): string {
+  return (
+    process.env.PUBLIC_SUPABASE_URL ||
+    import.meta.env.PUBLIC_SUPABASE_URL ||
+    ''
+  );
+}
+
+export function getSupabaseAnonKey(): string {
+  return (
+    process.env.PUBLIC_SUPABASE_ANON_KEY ||
+    import.meta.env.PUBLIC_SUPABASE_ANON_KEY ||
+    ''
+  );
+}
 
 export const isSupabaseConfigured = () => {
+  const url = getSupabaseUrl();
+  const key = getSupabaseAnonKey();
   return (
-    supabaseUrl &&
-    supabaseAnonKey &&
-    !supabaseUrl.includes('your-project-id') &&
-    !supabaseAnonKey.includes('your-anon-key')
+    !!url &&
+    !!key &&
+    !url.includes('your-project-id') &&
+    !key.includes('your-anon-key')
   );
 };
 
-export const supabase = isSupabaseConfigured()
-  ? createClient(supabaseUrl, supabaseAnonKey)
-  : null;
+let cachedClient: ReturnType<typeof createClient> | null = null;
+
+export function getSupabase() {
+  if (!isSupabaseConfigured()) return null;
+  if (!cachedClient) {
+    cachedClient = createClient(getSupabaseUrl(), getSupabaseAnonKey());
+  }
+  return cachedClient;
+}
+
+export const supabase = getSupabase();
 
 // ==========================================
 // UNIFIED DATA FETCHERS (SUPABASE OR FALLBACK)
 // ==========================================
 
 export async function fetchSiteSettings(): Promise<SiteSettings> {
-  if (isSupabaseConfigured() && supabase) {
+  const client = getSupabase();
+  if (client) {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await client
         .from('settings')
         .select('*')
         .eq('id', 'default')
@@ -55,9 +79,10 @@ export async function fetchSiteSettings(): Promise<SiteSettings> {
 }
 
 export async function fetchNewsList(limit?: number): Promise<NewsItem[]> {
-  if (isSupabaseConfigured() && supabase) {
+  const client = getSupabase();
+  if (client) {
     try {
-      let query = supabase
+      let query = client
         .from('news')
         .select('*')
         .order('created_at', { ascending: false });
@@ -89,9 +114,10 @@ export async function fetchNewsList(limit?: number): Promise<NewsItem[]> {
 }
 
 export async function fetchHeroSlides(): Promise<HeroSlide[]> {
-  if (isSupabaseConfigured() && supabase) {
+  const client = getSupabase();
+  if (client) {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await client
         .from('hero_slides')
         .select('*')
         .order('created_at', { ascending: true });
@@ -113,9 +139,10 @@ export async function fetchHeroSlides(): Promise<HeroSlide[]> {
 }
 
 export async function fetchLayananRequests(limit?: number): Promise<LayananRequest[]> {
-  if (isSupabaseConfigured() && supabase) {
+  const client = getSupabase();
+  if (client) {
     try {
-      let query = supabase
+      let query = client
         .from('layanan')
         .select('*')
         .order('created_at', { ascending: false });
@@ -146,9 +173,10 @@ export async function fetchLayananRequests(limit?: number): Promise<LayananReque
 }
 
 export async function fetchAgendaList(limit?: number): Promise<AgendaItem[]> {
-  if (isSupabaseConfigured() && supabase) {
+  const client = getSupabase();
+  if (client) {
     try {
-      let query = supabase
+      let query = client
         .from('agenda')
         .select('*')
         .order('created_at', { ascending: false });
@@ -182,9 +210,10 @@ export async function fetchAgendaList(limit?: number): Promise<AgendaItem[]> {
 }
 
 export async function fetchTeamMembers(): Promise<TeamMember[]> {
-  if (isSupabaseConfigured() && supabase) {
+  const client = getSupabase();
+  if (client) {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await client
         .from('team')
         .select('*');
 
@@ -205,9 +234,10 @@ export async function fetchTeamMembers(): Promise<TeamMember[]> {
 }
 
 export async function fetchAboutContent(): Promise<AboutPageContent> {
-  if (isSupabaseConfigured() && supabase) {
+  const client = getSupabase();
+  if (client) {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await client
         .from('about')
         .select('*')
         .eq('id', 'default')
@@ -233,9 +263,10 @@ export async function fetchAboutContent(): Promise<AboutPageContent> {
 }
 
 export async function fetchAgendaPageContent(): Promise<AgendaPageContent> {
-  if (isSupabaseConfigured() && supabase) {
+  const client = getSupabase();
+  if (client) {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await client
         .from('agenda_content')
         .select('*')
         .eq('id', 'default')

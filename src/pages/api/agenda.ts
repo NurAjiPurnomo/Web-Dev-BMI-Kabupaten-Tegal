@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getDB, saveDB, type AgendaItem } from '../../lib/db';
-import { supabase, isSupabaseConfigured, fetchAgendaList } from '../../lib/supabase';
+import { getSupabase, fetchAgendaList } from '../../lib/supabase';
 
 export const GET: APIRoute = async () => {
   const agenda = await fetchAgendaList();
@@ -26,9 +26,13 @@ export const POST: APIRoute = async ({ request }) => {
       image: data.image || 'https://images.unsplash.com/photo-1531497865144-0464ef8fb9a9?q=80&w=800&auto=format&fit=crop'
     };
 
-    if (isSupabaseConfigured() && supabase) {
-      const { error } = await supabase.from('agenda').insert([newItem]);
-      if (error) console.error('Supabase agenda insert error:', error);
+    const client = getSupabase();
+    if (client) {
+      const { error } = await client.from('agenda').insert([newItem]);
+      if (error) {
+        console.error('Supabase agenda insert error:', error);
+        return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+      }
     }
 
     const db = getDB();
@@ -46,8 +50,9 @@ export const PUT: APIRoute = async ({ request }) => {
     const data = await request.json();
     if (!data.id) return new Response(JSON.stringify({ error: 'ID required' }), { status: 400 });
 
-    if (isSupabaseConfigured() && supabase) {
-      const { error } = await supabase.from('agenda').update({
+    const client = getSupabase();
+    if (client) {
+      const { error } = await client.from('agenda').update({
         title: data.title,
         kecamatan: data.kecamatan,
         desc: data.desc,
@@ -58,7 +63,10 @@ export const PUT: APIRoute = async ({ request }) => {
         status: data.status,
         image: data.image
       }).eq('id', data.id);
-      if (error) console.error('Supabase agenda update error:', error);
+      if (error) {
+        console.error('Supabase agenda update error:', error);
+        return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+      }
     }
 
     const db = getDB();
@@ -80,8 +88,13 @@ export const DELETE: APIRoute = async ({ request }) => {
     const id = url.searchParams.get('id');
     if (!id) return new Response(JSON.stringify({ error: 'ID required' }), { status: 400 });
 
-    if (isSupabaseConfigured() && supabase) {
-      await supabase.from('agenda').delete().eq('id', id);
+    const client = getSupabase();
+    if (client) {
+      const { error } = await client.from('agenda').delete().eq('id', id);
+      if (error) {
+        console.error('Supabase agenda delete error:', error);
+        return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+      }
     }
 
     const db = getDB();

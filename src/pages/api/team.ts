@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getDB, saveDB, type TeamMember } from '../../lib/db';
-import { supabase, isSupabaseConfigured, fetchTeamMembers } from '../../lib/supabase';
+import { getSupabase, fetchTeamMembers } from '../../lib/supabase';
 
 export const GET: APIRoute = async () => {
   const team = await fetchTeamMembers();
@@ -21,9 +21,13 @@ export const POST: APIRoute = async ({ request }) => {
       tag: data.tag || 'Keorganisasian'
     };
 
-    if (isSupabaseConfigured() && supabase) {
-      const { error } = await supabase.from('team').insert([newItem]);
-      if (error) console.error('Supabase team insert error:', error);
+    const client = getSupabase();
+    if (client) {
+      const { error } = await client.from('team').insert([newItem]);
+      if (error) {
+        console.error('Supabase team insert error:', error);
+        return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+      }
     }
 
     const db = getDB();
@@ -41,14 +45,18 @@ export const PUT: APIRoute = async ({ request }) => {
     const data = await request.json();
     if (!data.id) return new Response(JSON.stringify({ error: 'ID required' }), { status: 400 });
 
-    if (isSupabaseConfigured() && supabase) {
-      const { error } = await supabase.from('team').update({
+    const client = getSupabase();
+    if (client) {
+      const { error } = await client.from('team').update({
         name: data.name,
         role: data.role,
         image: data.image,
         tag: data.tag
       }).eq('id', data.id);
-      if (error) console.error('Supabase team update error:', error);
+      if (error) {
+        console.error('Supabase team update error:', error);
+        return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+      }
     }
 
     const db = getDB();
@@ -70,8 +78,13 @@ export const DELETE: APIRoute = async ({ request }) => {
     const id = url.searchParams.get('id');
     if (!id) return new Response(JSON.stringify({ error: 'ID required' }), { status: 400 });
 
-    if (isSupabaseConfigured() && supabase) {
-      await supabase.from('team').delete().eq('id', id);
+    const client = getSupabase();
+    if (client) {
+      const { error } = await client.from('team').delete().eq('id', id);
+      if (error) {
+        console.error('Supabase team delete error:', error);
+        return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+      }
     }
 
     const db = getDB();
