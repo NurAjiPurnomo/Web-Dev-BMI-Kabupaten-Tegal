@@ -1175,6 +1175,13 @@ const programHighlights = [
     color: #2D3748;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
     transition: all 0.2s ease;
+    min-width: 0;
+  }
+
+  .kc-chip span:last-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .kc-chip:hover {
@@ -1553,11 +1560,12 @@ const programHighlights = [
     }
     .kecamatan-badge-grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+      gap: 8px;
     }
     .kc-chip {
-      padding: 8px 10px;
-      font-size: 0.78rem;
+      padding: 9px 10px;
+      font-size: 0.8rem;
+      border-radius: 8px;
     }
     .about-hero-img {
       height: 280px;
@@ -1594,7 +1602,13 @@ const programHighlights = [
       grid-template-columns: 1fr;
     }
     .kecamatan-badge-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+    .kc-chip {
+      padding: 8px 6px;
+      font-size: 0.75rem;
+      gap: 5px;
     }
   }
 </style>
