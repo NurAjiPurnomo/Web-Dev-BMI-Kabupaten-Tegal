@@ -2579,7 +2579,7 @@ const db = getDB();
 
     // 1. NEWS CRUD
     async function fetchNews() {
-      const res = await fetch('/api/news');
+      const res = await fetch(`/api/news?t=${Date.now()}`, { cache: 'no-store' });
       globalNews = await res.json();
       renderNewsTable();
     }
@@ -2697,7 +2697,7 @@ const db = getDB();
 
     // 2. HERO SLIDER CRUD
     async function fetchHero() {
-      const res = await fetch('/api/hero');
+      const res = await fetch(`/api/hero?t=${Date.now()}`, { cache: 'no-store' });
       globalHero = await res.json();
       renderHeroTable();
     }
@@ -2808,7 +2808,7 @@ const db = getDB();
 
     // 3. AGENDA KERJA CRUD
     async function fetchAgenda() {
-      const res = await fetch('/api/agenda');
+      const res = await fetch(`/api/agenda?t=${Date.now()}`, { cache: 'no-store' });
       globalAgenda = await res.json();
       renderAgendaTable();
     }
@@ -2945,7 +2945,7 @@ const db = getDB();
 
     // 4. TEAM / PENGURUS DPC CRUD
     async function fetchTeam() {
-      const res = await fetch('/api/team');
+      const res = await fetch(`/api/team?t=${Date.now()}`, { cache: 'no-store' });
       globalTeam = await res.json();
       renderTeamTable();
     }
