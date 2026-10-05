@@ -18,6 +18,10 @@ pnpm-debug.log*
 .env
 .env.production
 
+# local schemas & docs
+supabase_schema.sql
+AGENTS.md
+
 # macOS-specific files
 .DS_Store
 
