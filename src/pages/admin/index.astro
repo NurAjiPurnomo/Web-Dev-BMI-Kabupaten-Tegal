@@ -41,6 +41,9 @@ const db = getDB();
       </div>
     </div>
 
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div id="admin-sidebar-backdrop" class="admin-sidebar-backdrop hidden"></div>
+
     <!-- Main Dashboard Panel -->
     <div id="dashboard-panel" class="dashboard-container hidden">
       <!-- Admin Sidebar -->
@@ -55,6 +58,12 @@ const db = getDB();
               <span class="logo-subtext">BMI Kabupaten Tegal</span>
             </div>
           </div>
+
+          <!-- Mobile Hamburger Toggle Button -->
+          <button id="admin-mobile-toggle" class="admin-mobile-toggle-btn" aria-label="Menu Admin">
+            <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            <svg class="close-icon hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
         </div>
 
         <nav class="sidebar-nav">
@@ -1874,10 +1883,39 @@ const db = getDB();
 
   .hidden { display: none !important; }
 
+  .admin-mobile-toggle-btn {
+    display: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .admin-mobile-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .admin-sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 1999;
+  }
+
   /* ==========================================
      RESPONSIVE DASHBOARD LAYOUT (MOBILE & TABLET)
      ========================================== */
   @media (max-width: 1024px) {
+    .admin-mobile-toggle-btn {
+      display: flex;
+    }
+
     .dashboard-container {
       flex-direction: column;
       height: auto;
@@ -1890,7 +1928,7 @@ const db = getDB();
       height: auto;
       position: sticky;
       top: 0;
-      z-index: 1000;
+      z-index: 2000;
       border-right: none;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -1901,44 +1939,65 @@ const db = getDB();
       display: flex;
       justify-content: space-between;
       align-items: center;
+      width: 100%;
     }
 
-    .sidebar-nav {
-      flex-direction: row;
-      overflow-x: auto;
-      white-space: nowrap;
-      padding: 8px 12px;
-      gap: 6px;
-      background: #0B1120;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-    .sidebar-nav::-webkit-scrollbar {
+    /* Hide sidebar nav & footer by default on mobile */
+    .sidebar-nav, .sidebar-footer {
       display: none;
     }
 
+    /* Open mobile drawer state */
+    .admin-sidebar.mobile-open .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      padding: 12px 16px;
+      gap: 6px;
+      background: #0B1120;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+
+    .admin-sidebar.mobile-open .sidebar-footer {
+      display: flex;
+      flex-direction: column;
+      padding: 14px 16px;
+      gap: 10px;
+      background: #080D1A;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .admin-sidebar.mobile-open .hamburger-icon {
+      display: none !important;
+    }
+    .admin-sidebar.mobile-open .close-icon {
+      display: block !important;
+    }
+
     .nav-item {
-      width: auto;
-      flex-shrink: 0;
-      padding: 8px 14px;
-      font-size: 0.82rem;
+      width: 100%;
+      font-size: 0.9rem;
+      padding: 12px 16px;
+      border-radius: 8px;
       border-left: none;
-      border-bottom: 2px solid transparent;
-      border-radius: 6px;
+      border-bottom: none;
     }
 
     .nav-item.active {
-      border-left: none;
-      border-bottom: 2px solid var(--primary-red);
+      border-left: 3px solid var(--primary-red);
       background: rgba(255, 255, 255, 0.12);
     }
 
     .badge-count {
-      margin-left: 6px;
+      margin-left: auto;
     }
 
-    .sidebar-footer {
-      display: flex;
+    .btn-live-view, .btn-logout {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 0.88rem;
+    }
       flex-direction: row;
       justify-content: space-between;
       padding: 10px 16px;
@@ -2368,6 +2427,29 @@ const db = getDB();
       loadAllData();
     }
 
+    // Mobile Hamburger Menu Drawer Toggle
+    const mobileToggleBtn = document.getElementById('admin-mobile-toggle');
+    const adminSidebar = document.querySelector('.admin-sidebar');
+    const sidebarBackdrop = document.getElementById('admin-sidebar-backdrop');
+
+    function closeMobileSidebar() {
+      adminSidebar?.classList.remove('mobile-open');
+      sidebarBackdrop?.classList.add('hidden');
+    }
+
+    function toggleMobileSidebar() {
+      const isOpen = adminSidebar?.classList.contains('mobile-open');
+      if (isOpen) {
+        closeMobileSidebar();
+      } else {
+        adminSidebar?.classList.add('mobile-open');
+        sidebarBackdrop?.classList.remove('hidden');
+      }
+    }
+
+    mobileToggleBtn?.addEventListener('click', toggleMobileSidebar);
+    sidebarBackdrop?.addEventListener('click', closeMobileSidebar);
+
     // Navigation Tabs
     const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
     const tabContents = document.querySelectorAll('.tab-content');
@@ -2397,6 +2479,9 @@ const db = getDB();
         if (tabTitle && tabTitlesMap[tab]) {
           tabTitle.innerText = tabTitlesMap[tab];
         }
+
+        // Auto close mobile drawer on tab selection
+        closeMobileSidebar();
       });
     });
 
